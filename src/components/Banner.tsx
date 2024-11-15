@@ -5,7 +5,7 @@ export default function Banner() {
     <div className="relative rounded-xl overflow-hidden shadow-lg">
       {/* Banner Image */}
       <div className="relative w-full h-96">
-        <Image src="/images/banner.jpg" alt="Camping Banner" layout="fill" objectFit="cover" className="rounded-xl" />
+        <Image src="/images/banner.jpg" alt="Camping Banner" fill className="object-cover rounded-xl" />
       </div>
       {/* Tagline */}
       <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">

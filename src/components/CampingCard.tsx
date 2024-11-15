@@ -5,7 +5,7 @@ export default function CampingCard({ campingName, imgSrc }: { campingName: stri
     <div className="w-96 rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
       {/* Card Image */}
       <div className="relative w-full h-48">
-        <Image src={imgSrc} alt={campingName} layout="fill" objectFit="cover" className="rounded-t-lg" />
+        <Image src={imgSrc} alt={campingName} fill className="object-cover rounded-t-lg" />
       </div>
       {/* Card Content */}
       <div className="p-4 bg-white dark:bg-primary-foreground">
