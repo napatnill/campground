@@ -7,7 +7,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem
+  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../ui/mode-toggle";
@@ -15,8 +15,15 @@ import Link from "next/link";
 import { Separator } from "../ui/separator";
 
 export function AppSidebar() {
+  const menuItems = [
+    { href: "/", icon: Compass, label: "Explore" },
+    { href: "/", icon: Calendar, label: "Booking" },
+    { href: "/", icon: BookOpenText, label: "My Booking" },
+  ];
+
   return (
     <Sidebar>
+      {/* Sidebar Header */}
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -28,34 +35,24 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
+      {/* Sidebar Content */}
       <SidebarContent>
-            <SidebarMenu>
-              <SidebarMenuItem className="mx-2">
-                <SidebarMenuButton asChild >
-                  <Link href="/" className="flex p-6">
-                    <Compass className="mr-1 h-4 w-4" />
-                    <span>Explore</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem className="mx-2">
-                <SidebarMenuButton asChild>
-                  <Link href="/" className="flex p-6">
-                    <Calendar className="mr-1 h-4 w-4" />
-                    <span>Booking</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem className="mx-2">
-                <SidebarMenuButton asChild>
-                  <Link href="/" className="flex p-6">
-                    <BookOpenText className="mr-1 h-4 w-4" />
-                    <span>My Booking</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarContent>
+        <SidebarMenu>
+          {menuItems.map(({ href, icon: Icon, label }, index) => (
+            <SidebarMenuItem className="mx-2" key={index}>
+              <SidebarMenuButton asChild>
+                <Link href={href} className="flex p-6">
+                  <Icon className="mr-1 h-4 w-4" />
+                  <span>{label}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarContent>
+
+      {/* Sidebar Footer */}
       <SidebarFooter className="space-y-2">
         <ModeToggle />
         <Button variant="outline" size="sm" className="w-full justify-start">
