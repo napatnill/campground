@@ -5,7 +5,7 @@ export default function Navbar({title}: {title: string}) {
         <header className="flex items-center justify-between px-6 py-4 border-b">
         <div className="flex items-center gap-4">
           <SidebarTrigger />
-          <h1 className="text-2xl font-bold">{title}</h1>
+          <h1 className="text-xl font-medium">{title}</h1>
         </div>
       </header>
     );
