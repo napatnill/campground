@@ -3,6 +3,7 @@ import Navbar from "@/components/layout/navbar";
 import { Button } from "@/components/ui/button";
 import getCampground from "@/lib/getCampground";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function CampgroundDetailPage({ params }: { params: { id: string } }) {
   const campground = await getCampground(params.id);
@@ -60,7 +61,9 @@ export default async function CampgroundDetailPage({ params }: { params: { id: s
 
             {/* CTA Section */}
             <div className="mt-8 text-center">
-              <Button className="font-medium">Book This Campground</Button>
+              <Link href="/">
+                <Button className="font-medium">Book This Campground</Button>
+              </Link>
             </div>
           </div>
         </main>

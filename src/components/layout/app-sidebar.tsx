@@ -1,4 +1,4 @@
-import { LogIn, Calendar, TentTree, BookOpenText, Compass } from "lucide-react";
+import { LogIn, LogOut, Calendar, TentTree, BookOpenText, Compass, UserPlus } from "lucide-react";
 
 import {
   Sidebar,
@@ -7,18 +7,21 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem
 } from "@/components/ui/sidebar";
 import { Button } from "../ui/button";
-import { ModeToggle } from "../ui/mode-toggle";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export function AppSidebar() {
+export async function AppSidebar() {
+  const session = await getServerSession(authOptions);
+
   const menuItems = [
     { href: "/", icon: Compass, label: "Explore" },
     { href: "/", icon: Calendar, label: "Booking" },
-    { href: "/", icon: BookOpenText, label: "My Booking" },
+    { href: "/", icon: BookOpenText, label: "My Booking" }
   ];
 
   return (
@@ -54,11 +57,49 @@ export function AppSidebar() {
 
       {/* Sidebar Footer */}
       <SidebarFooter className="space-y-2">
-        <ModeToggle />
-        <Button variant="outline" size="sm" className="w-full justify-start">
-          <LogIn className="mr-2 h-4 w-4" />
-          <span>Sign In</span>
-        </Button>
+        {session ? (
+          <div>
+            {/* Username */}
+            <div className="text-xl font-semibold text-center">
+              Welcome, {session.user?.name}
+            </div>
+            {/* Sign Out Button */}
+            <Link href="/api/auth/signout">
+              <Button variant="outline" size="sm" className="w-full mt-2">
+                <LogOut className="h-4 w-4" />
+                <span>Sign Out</span>
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          // if no session
+          <div className="space-y-2">
+
+            {/* Register Button */}
+            <Link href="/">
+              <Button variant="outline" size="sm" className="w-full">
+                <UserPlus className="h-4 w-4" />
+                <span>Register</span>
+              </Button>
+            </Link>
+
+            {/* Separator with "or" text */}
+            <div className="flex items-center justify-center space-x-2">
+              <Separator className="w-1/4" />
+              <span className="text-sm text-muted-foreground">or</span>
+              <Separator className="w-1/4" />
+            </div>
+
+            {/* Sign In Button */}
+            <Link href="/api/auth/signin">
+              <Button variant="outline" size="sm" className="w-full mt-2">
+                <LogIn className="h-4 w-4" />
+                <span>Sign In</span>
+              </Button>
+            </Link>
+
+          </div>
+        )}
       </SidebarFooter>
     </Sidebar>
   );

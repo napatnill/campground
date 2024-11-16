@@ -1,3 +1,4 @@
+import { ModeToggle } from "../ui/mode-toggle";
 import { SidebarTrigger } from "../ui/sidebar";
 
 export default function Navbar({title}: {title: string}) {
@@ -6,6 +7,9 @@ export default function Navbar({title}: {title: string}) {
         <div className="flex items-center gap-4">
           <SidebarTrigger />
           <h1 className="text-xl font-medium">{title}</h1>
+        </div>
+        <div className="flex items-center ml-auto">
+          <ModeToggle />
         </div>
       </header>
     );

@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-wrapper-object-types */
+
 export interface CampgroundItem {
   _id: string;
   name: string;
