@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-wrapper-object-types */
-interface CampgroundItem {
+export interface CampgroundItem {
   _id: string;
   name: string;
   address: string;
@@ -13,7 +13,7 @@ interface CampgroundItem {
   id: string;
 }
 
-interface CampgroundsJson {
+export interface CampgroundsJson {
   success: boolean;
   count: number;
   pagination: Object;

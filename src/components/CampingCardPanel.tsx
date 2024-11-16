@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CampingCard from "./CampingCard";
+import { CampgroundItem, CampgroundsJson } from "../../interfaces";
 
 export default async function CampingCardPanel({campgroundsJson}: {campgroundsJson: Promise<CampgroundsJson>}) {
 
