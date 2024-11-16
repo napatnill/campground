@@ -59,10 +59,12 @@ export async function AppSidebar() {
       <SidebarFooter className="space-y-2">
         {session ? (
           <div>
+
             {/* Username */}
             <div className="text-xl font-semibold text-center">
               Welcome, {session.user?.name}
             </div>
+            
             {/* Sign Out Button */}
             <Link href="/api/auth/signout">
               <Button variant="outline" size="sm" className="w-full mt-2">
