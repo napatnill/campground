@@ -1,7 +1,7 @@
 import Banner from "@/components/Banner";
 import CampingCardPanel from "@/components/CampingCardPanel";
 import AppLayout from "@/components/layout/app-layout";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/layout/navbar";
 
 export default function Home() {
   return (
