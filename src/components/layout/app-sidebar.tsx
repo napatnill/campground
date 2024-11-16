@@ -67,7 +67,7 @@ export async function AppSidebar() {
             
             {/* Sign Out Button */}
             <Link href="/api/auth/signout">
-              <Button variant="outline" size="sm" className="w-full mt-2">
+              <Button variant="outline" size="sm" className="w-full mt-2 mb-2">
                 <LogOut className="h-4 w-4" />
                 <span>Sign Out</span>
               </Button>
@@ -94,7 +94,7 @@ export async function AppSidebar() {
 
             {/* Sign In Button */}
             <Link href="/api/auth/signin">
-              <Button variant="outline" size="sm" className="w-full mt-2">
+              <Button variant="outline" size="sm" className="w-full mt-2 mb-2">
                 <LogIn className="h-4 w-4" />
                 <span>Sign In</span>
               </Button>
