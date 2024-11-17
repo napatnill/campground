@@ -1,6 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
-import getUserProfile from "@/lib/getUserProfile";
+import getUserProfile from "@/lib/user/getUserProfile";
 // import { dbConnect } from "@/db/dbConnect";
 // import Car from "@/db/models/Car";
 // import { revalidateTag } from "next/cache";

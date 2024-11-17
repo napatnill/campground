@@ -1,7 +1,7 @@
 import AppLayout from "@/components/layout/app-layout";
 import Navbar from "@/components/layout/navbar";
 import { Button } from "@/components/ui/button";
-import getCampground from "@/lib/getCampground";
+import getCampground from "@/lib/campground/getCampground";
 import Image from "next/image";
 import Link from "next/link";
 
