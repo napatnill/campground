@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import ThemeProvider from "@/components/layout/theme-provider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "../pages/api/auth/[...nextauth]";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 

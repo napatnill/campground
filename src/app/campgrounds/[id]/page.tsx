@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import AppLayout from "@/components/layout/app-layout";
 import Navbar from "@/components/layout/navbar";
 import { Button } from "@/components/ui/button";
@@ -44,9 +44,8 @@ export default async function CampgroundDetailPage({ params }: { params: { id: s
         province,
         postalcode,
         tel,
-        picture,
+        picture
       });
-
 
       // Revalidate the landing page path and the current detail page path
       revalidatePath("/");
@@ -57,7 +56,6 @@ export default async function CampgroundDetailPage({ params }: { params: { id: s
 
     // Redirect to landing page
     redirect("/");
-
   };
 
   // Server action to delete the campground
@@ -87,12 +85,9 @@ export default async function CampgroundDetailPage({ params }: { params: { id: s
           <div className="max-w-4xl mx-auto bg-white dark:bg-zinc-900 rounded-lg shadow-lg p-6">
             {/* Title Section */}
             <div className="text-center mb-6">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                {campground.data.name}
-              </h1>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{campground.data.name}</h1>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Explore the beauty of {campground.data.name} located in{" "}
-                {campground.data.district}.
+                Explore the beauty of {campground.data.name} located in {campground.data.district}.
               </p>
             </div>
 
@@ -112,28 +107,22 @@ export default async function CampgroundDetailPage({ params }: { params: { id: s
               <div className="flex-1 text-lg text-gray-700 dark:text-gray-300 space-y-3">
                 <div className="bg-zinc-100 dark:bg-zinc-700 rounded-lg p-4">
                   <p>
-                    <span className="font-semibold">Name:</span>{" "}
-                    {campground.data.name}
+                    <span className="font-semibold">Name:</span> {campground.data.name}
                   </p>
                   <p>
-                    <span className="font-semibold">Address:</span>{" "}
-                    {campground.data.address}
+                    <span className="font-semibold">Address:</span> {campground.data.address}
                   </p>
                   <p>
-                    <span className="font-semibold">District:</span>{" "}
-                    {campground.data.district}
+                    <span className="font-semibold">District:</span> {campground.data.district}
                   </p>
                   <p>
-                    <span className="font-semibold">Province:</span>{" "}
-                    {campground.data.province}
+                    <span className="font-semibold">Province:</span> {campground.data.province}
                   </p>
                   <p>
-                    <span className="font-semibold">Postal Code:</span>{" "}
-                    {campground.data.postalcode}
+                    <span className="font-semibold">Postal Code:</span> {campground.data.postalcode}
                   </p>
                   <p>
-                    <span className="font-semibold">Tel:</span>{" "}
-                    {campground.data.tel}
+                    <span className="font-semibold">Tel:</span> {campground.data.tel}
                   </p>
                 </div>
               </div>
@@ -141,36 +130,30 @@ export default async function CampgroundDetailPage({ params }: { params: { id: s
 
             <div className="mt-8 text-center">
               <Link href={`/book/${params.id}`}>
-                <Button>
-                    Book this Campground
-                </Button>
+                <Button>Book this Campground</Button>
               </Link>
             </div>
 
             {/* Delete Button for Admin */}
             {profile && profile.data.role === "admin" && (
-            <div className="mt-8 text-center">
-              <form action={deleteCampground}>
-                <Button
-                  type="submit"
-                  className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md shadow"
-                >
+              <div className="mt-8 text-center">
+                <form action={deleteCampground}>
+                  <Button
+                    type="submit"
+                    className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md shadow"
+                  >
                     Delete Campground
-                </Button>
-              </form>
-            </div>
+                  </Button>
+                </form>
+              </div>
             )}
-
-
           </div>
 
           {/* Admin Form */}
           {profile && profile.data.role === "admin" ? (
             <div className="max-w-4xl mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-lg shadow-lg p-6">
               <form action={updateCampground} className="space-y-6">
-                <h2 className="text-2xl font-semibold text-center">
-                  Update Campground
-                </h2>
+                <h2 className="text-2xl font-semibold text-center">Update Campground</h2>
 
                 {/* Form fields pre-filled with existing data */}
                 {[
@@ -180,13 +163,10 @@ export default async function CampgroundDetailPage({ params }: { params: { id: s
                   { id: "province", label: "Province", value: campground.data.province },
                   { id: "postalcode", label: "Postal Code", value: campground.data.postalcode },
                   { id: "tel", label: "Tel", value: campground.data.tel },
-                  { id: "picture", label: "Picture URL", value: campground.data.picture },
+                  { id: "picture", label: "Picture URL", value: campground.data.picture }
                 ].map(({ id, label, value }) => (
                   <div key={id} className="flex flex-col">
-                    <label
-                      htmlFor={id}
-                      className="text-sm font-medium text-gray-700 dark:text-gray-300"
-                    >
+                    <label htmlFor={id} className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       {label}
                     </label>
                     <Input
@@ -201,10 +181,7 @@ export default async function CampgroundDetailPage({ params }: { params: { id: s
                 ))}
 
                 {/* Submit button */}
-                <Button
-                  type="submit"
-                  className="w-full font-medium py-2 px-4 rounded-md shadow"
-                >
+                <Button type="submit" className="w-full font-medium py-2 px-4 rounded-md shadow">
                   Update Campground
                 </Button>
               </form>

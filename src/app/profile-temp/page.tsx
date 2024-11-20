@@ -1,84 +1,82 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import getUserProfile from "@/lib/user/getUserProfile";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 // import { dbConnect } from "@/db/dbConnect";
 // import Car from "@/db/models/Car";
 // import { revalidateTag } from "next/cache";
 // import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
+  // server action (Advanced React)
+  // const addCar = async (addCarForm: FormData) => {
 
-    // server action (Advanced React)
-    // const addCar = async (addCarForm: FormData) => {
+  //     // get data from the Form below
+  //     "use server";
+  //     const model = addCarForm.get("model");
+  //     const description = addCarForm.get("desc");
+  //     const picture = addCarForm.get("picture");
+  //     const seats = addCarForm.get("seats");
+  //     const doors = addCarForm.get("doors");
+  //     const largebags = addCarForm.get("largebags");
+  //     const smallbags = addCarForm.get("smallbags");
+  //     const automatic = true;
+  //     const dayRate = addCarForm.get("dayRate");
 
-    //     // get data from the Form below
-    //     "use server";
-    //     const model = addCarForm.get("model");
-    //     const description = addCarForm.get("desc");
-    //     const picture = addCarForm.get("picture");
-    //     const seats = addCarForm.get("seats");
-    //     const doors = addCarForm.get("doors");
-    //     const largebags = addCarForm.get("largebags");
-    //     const smallbags = addCarForm.get("smallbags");
-    //     const automatic = true;
-    //     const dayRate = addCarForm.get("dayRate");
+  //     // connect to database (create car object following by the schema)
+  //     try {
+  //         await dbConnect();
+  //         const car = await Car.create({
+  //             "model": model,
+  //             "description": description,
+  //             "picture": picture,
+  //             "seats": seats,
+  //             "doors": doors,
+  //             "largebags": largebags,
+  //             "smallbags": smallbags,
+  //             "automatic": automatic,
+  //             "dayRate": dayRate
+  //         });
 
-    //     // connect to database (create car object following by the schema)
-    //     try {
-    //         await dbConnect();
-    //         const car = await Car.create({
-    //             "model": model,
-    //             "description": description,
-    //             "picture": picture,
-    //             "seats": seats,
-    //             "doors": doors,
-    //             "largebags": largebags,
-    //             "smallbags": smallbags,
-    //             "automatic": automatic,
-    //             "dayRate": dayRate
-    //         });
+  //     } catch(error) {
+  //         console.log(error);
+  //     }
 
-    //     } catch(error) {
-    //         console.log(error);
-    //     }
+  //     // revalidateTag cars then go to /car page
+  //     revalidateTag("cars");
+  //     redirect("/car");
+  // }
 
-    //     // revalidateTag cars then go to /car page
-    //     revalidateTag("cars");
-    //     redirect("/car");
-    // }
+  // server session (Data Posting)
+  const session = await getServerSession(authOptions);
 
+  if (!session || !session.user.token) return null;
 
-    // server session (Data Posting)
-    const session = await getServerSession(authOptions);
+  const profile = await getUserProfile(session.user.token);
 
-    if (!session || !session.user.token) return null;
+  const createAt = new Date(profile.data.createAt); // can look user field name in swagger
 
-    const profile = await getUserProfile(session.user.token);
+  return (
+    <main className="bg-background m-5 p-5">
+      <div className="text-2xl">{profile.data.name}</div>
+      <table className="table-auto border-separate border-spacing-2">
+        <tbody>
+          <tr>
+            <td>Email</td>
+            <td>{profile.data.email}</td>
+          </tr>
+          <tr>
+            <td>Tel.</td>
+            <td>{profile.data.tel}</td>
+          </tr>
+          <tr>
+            <td>Member Since</td>
+            <td>{createAt.toString()}</td>
+          </tr>
+        </tbody>
+      </table>
 
-    const createAt = new Date(profile.data.createAt); // can look user field name in swagger
-
-    return (
-        <main className='bg-background m-5 p-5'>
-            <div className="text-2xl">{profile.data.name}</div>
-            <table className="table-auto border-separate border-spacing-2">
-                <tbody>
-                    <tr>
-                        <td>Email</td>
-                        <td>{profile.data.email}</td>
-                    </tr>
-                    <tr>
-                        <td>Tel.</td>
-                        <td>{profile.data.tel}</td>
-                    </tr>
-                    <tr>
-                        <td>Member Since</td>
-                        <td>{createAt.toString()}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            {/* admin form */}
-            {/* {
+      {/* admin form */}
+      {/* {
                 (profile.data.role == "admin") ?
                 <form action={addCar}>
                     <div className="text-xl text-blue-700"> Create Car Model</div>
@@ -116,6 +114,6 @@ export default async function DashboardPage() {
                 </form>
                 : null
             } */}
-        </main>
-    );
+    </main>
+  );
 }
