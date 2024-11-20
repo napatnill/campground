@@ -59,12 +59,9 @@ export async function AppSidebar() {
       <SidebarFooter className="space-y-2">
         {session ? (
           <div>
-
             {/* Username */}
-            <div className="text-xl font-semibold text-center">
-              Welcome, {session.user?.name}
-            </div>
-            
+            <div className="text-xl font-semibold text-center">Welcome, {session.user?.name}</div>
+
             {/* Sign Out Button */}
             <Link href="/api/auth/signout">
               <Button variant="outline" size="sm" className="w-full mt-2 mb-2">
@@ -76,9 +73,8 @@ export async function AppSidebar() {
         ) : (
           // if no session
           <div className="space-y-2">
-
             {/* Register Button */}
-            <Link href="/">
+            <Link href="/auth/register">
               <Button variant="outline" size="sm" className="w-full">
                 <UserPlus className="h-4 w-4" />
                 <span>Register</span>
@@ -93,13 +89,12 @@ export async function AppSidebar() {
             </div>
 
             {/* Sign In Button */}
-            <Link href="/api/auth/signin">
+            <Link href="/auth/login">
               <Button variant="outline" size="sm" className="w-full mt-2 mb-2">
                 <LogIn className="h-4 w-4" />
                 <span>Sign In</span>
               </Button>
             </Link>
-
           </div>
         )}
       </SidebarFooter>
