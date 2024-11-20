@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import userLogIn from "@/lib/user/userLogIn";
+import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -40,8 +41,7 @@ export const authOptions: NextAuthOptions = {
   }
 };
 
-// Initialize NextAuth with the defined options
-const handler = NextAuth(authOptions);
-
-// Export handlers for each HTTP method
-export { handler as GET, handler as POST };
+// Default export for Next.js API Route
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  return NextAuth(req, res, authOptions);
+}
