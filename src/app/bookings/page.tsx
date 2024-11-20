@@ -26,6 +26,7 @@ import { BookingItem } from "../../../interfaces";
 import { useToast } from "@/hooks/use-toast";
 import deleteBooking from "@/lib/book/deleteBooking";
 import updateBooking from "@/lib/book/updateBooking";
+import Link from "next/link";
 
 export default function MyBookingsPage() {
   const [bookings, setBookings] = useState<BookingItem[]>([]);
@@ -206,7 +207,16 @@ export default function MyBookingsPage() {
             </div>
 
             {filteredBooking.length === 0 ? (
-              <p className="text-center text-muted-foreground">No bookings found.</p>
+              session ? (
+                <p className="text-center text-muted-foreground">No bookings found.</p>
+              ) : (
+                <div className="flex flex-col items-center gap-2">
+                  <p className="text-center text-muted-foreground">You need to be logged in to view your bookings.</p>
+                  <Link href="/auth/login">
+                    <Button>Sign In</Button>
+                  </Link>
+                </div>
+              )
             ) : (
               <div className="grid gap-6 md:grid-cols-2">
                 {filteredBooking.map((booking) => (
