@@ -95,7 +95,7 @@ export default function CampgroundDetailPage({ params }: { params: { id: string 
   return (
     <AppLayout>
       <div className="w-full flex flex-col flex-1 overflow-hidden bg-background">
-        <Navbar title="Campground Details" />
+        <Navbar title="Book the Campground" />
         <main className="flex-1 overflow-auto p-6">
           <div className="max-w-4xl mx-auto bg-white dark:bg-zinc-900 rounded-lg shadow-lg p-6">
             {/* Title Section */}
