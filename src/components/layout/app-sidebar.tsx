@@ -14,14 +14,14 @@ import {
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 export function AppSidebar() {
   const { data: session } = useSession();
 
   const menuItems = [
     { href: "/", icon: Compass, label: "Explore" },
-    { href: "/", icon: BookOpenText, label: "My Booking" }
+    { href: "/bookings", icon: BookOpenText, label: "My Booking" }
   ];
 
   return (
@@ -63,12 +63,17 @@ export function AppSidebar() {
             <div className="text-xl font-semibold text-center">Welcome, {session.user?.name}</div>
 
             {/* Sign Out Button */}
-            <Link href="/api/auth/signout">
-              <Button variant="outline" size="sm" className="w-full mt-2 mb-2">
-                <LogOut className="h-4 w-4" />
-                <span>Sign Out</span>
-              </Button>
-            </Link>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-2 mb-2"
+              onClick={() => {
+                signOut();
+              }}
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Sign Out</span>
+            </Button>
           </div>
         ) : (
           // if no session

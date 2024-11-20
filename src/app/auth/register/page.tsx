@@ -4,12 +4,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import userRegister from "@/lib/user/userRegister";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -127,7 +128,10 @@ export default function SignupPage() {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Sign Up</CardTitle>
+          <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
+          <CardDescription>
+            Enter your details to create an account.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -175,6 +179,12 @@ export default function SignupPage() {
               {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Sign Up
             </Button>
+            <p className="mt-2 text-center">
+              Already have an account?{" "}
+              <Link href="/auth/login" className="underline hover:text-gray-500">
+                Login
+              </Link>
+            </p>
           </form>
         </CardContent>
       </Card>

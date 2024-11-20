@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -73,10 +74,16 @@ export default function LoginPage() {
               </Alert>
             )}
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex-col">
             <Button type="submit" className="w-full">
               Sign In
             </Button>
+            <p className="mt-2">
+              Do not have an account yet?{" "}
+              <Link href="/auth/register" className="underline hover:text-gray-500">
+                Register
+              </Link>
+            </p>
           </CardFooter>
         </form>
       </Card>
