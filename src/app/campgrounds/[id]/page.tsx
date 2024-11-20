@@ -142,7 +142,7 @@ export default async function CampgroundDetailPage({ params }: { params: { id: s
             <div className="mt-8 text-center">
               <Link href={`/book/${params.id}`}>
                 <Button>
-                    Book this campground
+                    Book this Campground
                 </Button>
               </Link>
             </div>
