@@ -1,6 +1,6 @@
 "use client";
 
-import { LogIn, LogOut, Calendar, TentTree, BookOpenText, Compass, UserPlus } from "lucide-react";
+import { LogIn, LogOut, TentTree, BookOpenText, Compass, UserPlus, CirclePlus } from "lucide-react";
 
 import {
   Sidebar,
@@ -15,6 +15,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import { signOut, useSession } from "next-auth/react";
+import { useMemo } from "react";
 
 export function AppSidebar() {
   const { data: session } = useSession();
@@ -23,6 +24,11 @@ export function AppSidebar() {
     { href: "/", icon: Compass, label: "Explore" },
     { href: "/bookings", icon: BookOpenText, label: "My Booking" }
   ];
+
+  const isAdmin = useMemo(() => {
+    console.log(session);
+    return  session?.user?.role === "admin";
+    }, [session]);
 
   return (
     <Sidebar>
@@ -52,6 +58,18 @@ export function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
+
+            {/* Admin Button */}
+            {isAdmin && (
+            <SidebarMenuItem className="mx-2">
+              <SidebarMenuButton asChild>
+                <Link href="/create-camp" className="flex p-6">
+                  <CirclePlus className="mr-1 h-4 w-4" />
+                  <span>Create Camp</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
       </SidebarContent>
 
