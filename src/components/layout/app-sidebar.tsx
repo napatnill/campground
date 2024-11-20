@@ -15,20 +15,31 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import { signOut, useSession } from "next-auth/react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import getUserProfile from "@/lib/user/getUserProfile";
 
 export function AppSidebar() {
   const { data: session } = useSession();
+  const [userProfile, setUserProfile] = useState<{
+    role: string;
+  } | null>(null);
 
   const menuItems = [
     { href: "/", icon: Compass, label: "Explore" },
     { href: "/bookings", icon: BookOpenText, label: "My Booking" }
   ];
 
+  useEffect(() => {
+    if (!session) return;
+    getUserProfile(session.user.token).then((profile) => {
+      setUserProfile(profile.data);
+    });
+  }, [session]);
+
   const isAdmin = useMemo(() => {
-    console.log(session);
-    return  session?.user?.role === "admin";
-    }, [session]);
+    if (!userProfile) return false;
+    return userProfile.role === "admin";
+  }, [userProfile]);
 
   return (
     <Sidebar>
@@ -59,8 +70,8 @@ export function AppSidebar() {
             </SidebarMenuItem>
           ))}
 
-            {/* Admin Button */}
-            {isAdmin && (
+          {/* Admin Button */}
+          {isAdmin && (
             <SidebarMenuItem className="mx-2">
               <SidebarMenuButton asChild>
                 <Link href="/create-camp" className="flex p-6">
