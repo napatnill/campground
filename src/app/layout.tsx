@@ -5,6 +5,7 @@ import ThemeProvider from "@/components/layout/theme-provider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import NextAuthProvider from "@/providers/NextAuthProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,6 +45,7 @@ export default async function RootLayout({
             {children}
           </ThemeProvider>
         </NextAuthProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -1,3 +1,5 @@
+"use client";
+
 import { LogIn, LogOut, Calendar, TentTree, BookOpenText, Compass, UserPlus } from "lucide-react";
 
 import {
@@ -12,16 +14,14 @@ import {
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { signOut, useSession } from "next-auth/react";
 
-export async function AppSidebar() {
-  const session = await getServerSession(authOptions);
+export function AppSidebar() {
+  const { data: session } = useSession();
 
   const menuItems = [
     { href: "/", icon: Compass, label: "Explore" },
-    { href: "/", icon: Calendar, label: "Booking" },
-    { href: "/", icon: BookOpenText, label: "My Booking" }
+    { href: "/bookings", icon: BookOpenText, label: "My Booking" }
   ];
 
   return (
@@ -59,26 +59,27 @@ export async function AppSidebar() {
       <SidebarFooter className="space-y-2">
         {session ? (
           <div>
-
             {/* Username */}
-            <div className="text-xl font-semibold text-center">
-              Welcome, {session.user?.name}
-            </div>
-            
+            <div className="text-xl font-semibold text-center">Welcome, {session.user?.name}</div>
+
             {/* Sign Out Button */}
-            <Link href="/api/auth/signout">
-              <Button variant="outline" size="sm" className="w-full mt-2 mb-2">
-                <LogOut className="h-4 w-4" />
-                <span>Sign Out</span>
-              </Button>
-            </Link>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-2 mb-2"
+              onClick={() => {
+                signOut();
+              }}
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Sign Out</span>
+            </Button>
           </div>
         ) : (
           // if no session
           <div className="space-y-2">
-
             {/* Register Button */}
-            <Link href="/">
+            <Link href="/auth/register">
               <Button variant="outline" size="sm" className="w-full">
                 <UserPlus className="h-4 w-4" />
                 <span>Register</span>
@@ -93,13 +94,12 @@ export async function AppSidebar() {
             </div>
 
             {/* Sign In Button */}
-            <Link href="/api/auth/signin">
+            <Link href="/auth/login">
               <Button variant="outline" size="sm" className="w-full mt-2 mb-2">
                 <LogIn className="h-4 w-4" />
                 <span>Sign In</span>
               </Button>
             </Link>
-
           </div>
         )}
       </SidebarFooter>

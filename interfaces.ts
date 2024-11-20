@@ -19,3 +19,12 @@ export interface CampgroundsJson {
   pagination: Object;
   data: CampgroundItem[];
 }
+
+export interface BookingItem {
+  _id: string;
+  bookingDate: Date;
+  checkoutDate: Date;
+  user: string;
+  campground: CampgroundItem;
+  createdAt: Date;
+}
