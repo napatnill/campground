@@ -1,3 +1,5 @@
+"use client";
+
 import { LogIn, LogOut, Calendar, TentTree, BookOpenText, Compass, UserPlus } from "lucide-react";
 
 import {
@@ -12,15 +14,13 @@ import {
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { useSession } from "next-auth/react";
 
-export async function AppSidebar() {
-  const session = await getServerSession(authOptions);
+export function AppSidebar() {
+  const { data: session } = useSession();
 
   const menuItems = [
     { href: "/", icon: Compass, label: "Explore" },
-    { href: "/", icon: Calendar, label: "Booking" },
     { href: "/", icon: BookOpenText, label: "My Booking" }
   ];
 
