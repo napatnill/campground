@@ -16,3 +16,8 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: jest.fn()
   }))
 });
+
+import { TextEncoder as UtilTextEncoder, TextDecoder as UtilTextDecoder } from "util";
+
+(global as any).TextEncoder = UtilTextEncoder;
+(global as any).TextDecoder = UtilTextDecoder;
