@@ -5,6 +5,9 @@ import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider";
 import React from "react";
 import Home from "@/app/page";
 
+import fetchMock from "jest-fetch-mock";
+fetchMock.enableMocks();
+
 // Mock `getCampgrounds`
 jest.mock("@/lib/campground/getCampgrounds", () => {
   return jest.fn(() => [

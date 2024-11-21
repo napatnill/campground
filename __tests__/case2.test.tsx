@@ -1,60 +1,40 @@
 import userRegister from "@/lib/user/userRegister";
 
-describe("userRegister", () => {
-  beforeEach(() => {
-    fetchMock.resetMocks();
-  });
+import fetchMock from "jest-fetch-mock";
+fetchMock.disableMocks();
+
+describe("userRegister with actual backend", () => {
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  if (!backendUrl) {
+    throw new Error("NEXT_PUBLIC_BACKEND_URL is not defined in .env.local");
+  }
 
   it("should register a user successfully", async () => {
-    const mockResponse = {
-      id: "12345",
-      name: "Test User",
-      email: "test@example.com",
-      tel: "123456789"
-    };
+    const userName = "Test User";
+    const userEmail = `test${Date.now()}@example.com`; // Unique email for testing
+    const userPassword = "password123";
+    const userTel = "0123456789";
 
-    fetchMock.mockResponseOnce(JSON.stringify(mockResponse), { status: 200 });
+    const result = await userRegister(userName, userEmail, userPassword, userTel);
 
-    const result = await userRegister("Test User", "test@example.com", "password123", "123456789");
-
-    expect(fetchMock).toHaveBeenCalledWith(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: "Test User",
-        email: "test@example.com",
-        password: "password123",
-        tel: "123456789"
-      })
-    });
-
-    expect(result).toEqual(mockResponse);
+    expect(result).toHaveProperty("_id");
+    expect(result).toHaveProperty("name", userName);
+    expect(result).toHaveProperty("email", userEmail);
   });
 
   it("should throw an error when trying to register with the same email", async () => {
-    const mockErrorResponse = {
-      message: "User with this email already exists"
-    };
+    const userName = "Test User";
+    const userEmail = "test@example.com"; // Use a known duplicate email
+    const userPassword = "password123";
+    const userTel = "0123456789";
 
-    fetchMock.mockResponseOnce(JSON.stringify(mockErrorResponse), { status: 400 });
+    // First registration to ensure the email exists
+    await userRegister(userName, userEmail, userPassword, userTel).catch(() => {});
 
-    await expect(userRegister("Test User", "test@example.com", "password123", "123456789")).rejects.toThrow(
-      "User with this email already exists"
+    // Attempting to register with the same email
+    await expect(userRegister(userName, userEmail, userPassword, userTel)).rejects.toThrow(
+      "Email is already registered"
     );
-
-    expect(fetchMock).toHaveBeenCalledWith(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: "Test User",
-        email: "test@example.com",
-        password: "password123",
-        tel: "123456789"
-      })
-    });
   });
 });

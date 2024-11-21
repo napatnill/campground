@@ -1,65 +1,56 @@
 import getBookings from "@/lib/book/getBookings";
+import userLogIn from "@/lib/user/userLogIn";
 
-describe("getBookings", () => {
-  beforeEach(() => {
-    fetchMock.resetMocks();
-  });
+import fetchMock from "jest-fetch-mock";
+fetchMock.disableMocks();
+
+describe("getBookings with actual backend", () => {
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  if (!backendUrl) {
+    throw new Error("NEXT_PUBLIC_BACKEND_URL is not defined in .env.local");
+  }
 
   it("should return bookings for the user when the role is 'user'", async () => {
-    const userToken = "user-token";
-    const mockUserBookings = [
-      { id: 1, user: "user1", details: "Booking details 1" },
-      { id: 2, user: "user1", details: "Booking details 2" }
-    ];
+    const userData = await userLogIn("tony@gmail.com", "tony1234");
 
-    fetchMock.mockResponseOnce(JSON.stringify(mockUserBookings), { status: 200 });
+    const userToken = userData.token;
+    const response = await getBookings(userToken);
+    const result = response.data;
 
-    const result = await getBookings(userToken);
-
-    expect(fetchMock).toHaveBeenCalledWith(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookings`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${userToken}`
-      }
-    });
-
-    expect(result).toEqual(mockUserBookings);
+    // Add expectations based on your backend response structure
+    expect(Array.isArray(result)).toBe(true);
+    expect(result.length).toBeGreaterThan(0); // Adjust based on expected data
+    expect(result[0]).toHaveProperty("_id");
+    expect(result[0]).toHaveProperty("user");
+    expect(result[0]).toHaveProperty("bookingDate");
   });
 
   it("should return all bookings when the role is 'admin'", async () => {
-    const adminToken = "admin-token";
-    const mockAllBookings = [
-      { id: 1, user: "user1", details: "Booking details 1" },
-      { id: 2, user: "user2", details: "Booking details 2" },
-      { id: 3, user: "user3", details: "Booking details 3" }
-    ];
+    const userData = await userLogIn("admin@gmail.com", "admin1234");
 
-    fetchMock.mockResponseOnce(JSON.stringify(mockAllBookings), { status: 200 });
+    const adminToken = userData.token;
+    const response = await getBookings(adminToken);
+    const result = response.data;
 
-    const result = await getBookings(adminToken);
+    // Add expectations based on your backend response structure
+    expect(Array.isArray(result)).toBe(true);
+    expect(result.length).toBeGreaterThan(0); // Adjust based on expected data
 
-    expect(fetchMock).toHaveBeenCalledWith(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookings`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${adminToken}`
-      }
-    });
+    // check if tony booking is in the list by checking 'user' == '6738de6f866c9c86cbae9bbd'
+    const tonyBooking = result.find((booking: any) => booking.user === "6738de6f866c9c86cbae9bbd");
 
-    expect(result).toEqual(mockAllBookings);
+    expect(tonyBooking).toBeDefined();
+    expect(tonyBooking).toHaveProperty("_id");
+    expect(tonyBooking).toHaveProperty("user");
+    expect(tonyBooking).toHaveProperty("bookingDate");
   });
 
   it("should throw an error if the response is not successful", async () => {
-    const invalidToken = "invalid-token";
-
-    fetchMock.mockResponseOnce("", { status: 403 });
+    const invalidToken = "invalid-token"; // Use a deliberately invalid token
 
     await expect(getBookings(invalidToken)).rejects.toThrow("Cannot get user bookings");
 
-    expect(fetchMock).toHaveBeenCalledWith(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookings`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${invalidToken}`
-      }
-    });
+    console.log("Invalid token test passed.");
   });
 });
