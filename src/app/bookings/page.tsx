@@ -81,6 +81,27 @@ export default function MyBookingsPage() {
     const end = new Date(newCheckoutDate);
     const nights = (end.getTime() - start.getTime()) / (1000 * 3600 * 24);
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (start < today) {
+      toast({
+        title: "Invalid Date Range",
+        description: "Booking date cannot be in the past.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (end <= start) {
+      toast({
+        title: "Invalid Date Range",
+        description: "Checkout date must be after booking date.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (nights > 3) {
       toast({
         title: "Invalid Date Range",
